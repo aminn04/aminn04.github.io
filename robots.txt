@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: https://aminnali.net/sitemap.xml
+Sitemap: https://aminn.ca/sitemap.xml
