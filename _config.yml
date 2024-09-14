@@ -63,8 +63,8 @@ analytics:
   goatcounter:
     id: # fill in your GoatCounter ID
   umami:
-    id: 8f40fb2c-b5c8-4d5e-9891-ad1af79b60a9
-    domain: aminna.li
+    id:
+    domain:
   matomo:
     id: # fill in your Matomo ID
     domain: # fill in your Matomo domain
