@@ -11,6 +11,10 @@ platforms:
     instances:
       - label: mastodon.social
         link: "https://mastodon.social/"
+      - label: mastodon.online
+        link: "https://mastodon.online/"
+      - label: mathstodon.xyz
+        link: "https://mathstodon.xyz/"
 
   # Uncomment below if you need to.
   #
