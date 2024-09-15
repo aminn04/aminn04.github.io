@@ -1,1 +1,3 @@
-# GH page using Chirpy
+# Blog
+
+Github pages using Chirpy

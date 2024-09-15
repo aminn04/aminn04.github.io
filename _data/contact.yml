@@ -3,18 +3,26 @@
 - type: github
   icon: "fab fa-github"
 
+- type: mastodon
+  icon: "fab fa-mastodon"
+  url: "https://mastodon.social/@aminn04"
+
+- type: spotify
+  icon: "fab fa-spotify"
+  url: "https://open.spotify.com/user/aminn04"
+
 - type: linkedin
   icon: "fab fa-linkedin"
   url: "https://linkedin.com/in/aminnali"
-
-- type: email
-  icon: "fas fa-envelope"
-  noblank: true # open link in current tab
-
-- type: rss
-  icon: "fas fa-rss"
-  noblank: true
 # Uncomment and complete the url below to enable more contact options
+#
+# - type: rss
+#   icon: "fas fa-rss"
+#   noblank: true
+#
+# - type: email
+#   icon: "fas fa-envelope"
+#   noblank: true # open link in current tab
 #
 # - type: mastodon
 #   icon: 'fab fa-mastodon'   # icons powered by <https://fontawesome.com/>
