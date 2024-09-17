@@ -1,3 +1,3 @@
 # Homepage
 
-Github Pages using Chirpy
+GitHub Pages using Chirpy
