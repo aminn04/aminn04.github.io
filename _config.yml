@@ -62,7 +62,7 @@ analytics:
     id: # fill in your GoatCounter ID
   umami:
     id: dc1feade-8755-4b0e-8e63-c501f20cfba5
-    domain: "https://aminna.li/"
+    domain: "https://cloud.umami.is/"
   matomo:
     id: # fill in your Matomo ID
     domain: # fill in your Matomo domain
