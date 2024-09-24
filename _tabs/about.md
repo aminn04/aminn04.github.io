@@ -19,7 +19,6 @@ order: 4
   * Data Modeling & Infrastructure
   * Product Management
 
-
 * I am π-lingual
   * English (native)
   * Urdu (native)
