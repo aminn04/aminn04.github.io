@@ -1,0 +1,172 @@
+---
+---
+@import "external/terminal";
+@import "external/font-awesome";
+
+
+
+:root {
+  /* Colors (http://clrs.cc/) */
+  --aqua: #7fdbff;
+  --blue: #0074d9;
+  --navy: #001f3f;
+  --teal: #39cccc;
+  --green: #2ecc40;
+  --olive: #3d9970;
+  --lime: #01ff70;
+
+  --yellow: #ffdc00;
+  --orange: #ff851b;
+  --red: #ff4136;
+  --fuchsia: #f012be;
+  --purple: #b10dc9;
+  --maroon: #85144b;
+
+  --white: #ffffff;
+  --silver: #dddddd;
+  --gray: #aaaaaa;
+  --black: #111111;
+
+  /* Override terminal.css colors */
+  --primary-color: var(--teal);
+  --error-color: var(--maroon);
+
+  /* Override terminal.css fonts */
+  --font-stack: "iA Writer Quattro", Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  --mono-font-stack: "iA Writer Mono", Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --global-font-size: 15px;
+    --global-line-height: 1.4em;
+    --global-space: 10px;
+    --background-color: #222225;
+    --page-width: 60em;
+    --font-color: #e8e9ed;
+    --invert-font-color: #222225;
+    --secondary-color: #a3abba;
+    --tertiary-color: #a3abba;
+    --primary-color: #62c4ff;
+    --error-color: #ff3c74;
+    --progress-bar-background: #3f3f44;
+    --progress-bar-fill: #62c4ff;
+    --code-bg-color: #3f3f44;
+    --input-style: solid;
+    --display-h1-decoration: none;
+  }
+}
+
+
+#posts {
+  .meta {
+    color: var(--secondary-color);
+  }
+
+  img {
+    width: auto;
+    max-width: 90%;
+    max-height: 128px;
+    padding-bottom: 1em;
+    display: block;
+    clear: both;
+  }
+
+  video {
+    max-width: 100%;
+  }
+}
+
+#introduction {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+
+  .profile {
+    border-radius: 100%;
+    background: var(--white);
+  }
+
+  .column {
+    margin: 10px;
+    align-self: auto;
+  }
+
+  .column:nth-child(1) {
+    order: 0;
+    flex: 3;
+  }
+
+  .column:nth-child(2) {
+    order: 1;
+    flex: 1;
+  }
+}
+
+.spinner {
+  &::before {
+    content: "|";
+    animation: spinner 1s linear infinite;
+  }
+}
+
+.loading {
+  &::after {
+    content: "|";
+    animation: dots 1s linear infinite;
+  }
+}
+
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+
+  50% {
+    content: "..";
+  }
+
+  100% {
+    content: "...";
+  }
+}
+
+@keyframes spinner {
+  0% {
+    content: "|";
+  }
+
+  14.3% {
+    content: "/";
+  }
+
+  28.6% {
+    content: "—";
+  }
+
+  42.9% {
+    content: "\\";
+  }
+
+  57.1% {
+    content: "|";
+  }
+
+  71.4% {
+    content: "/";
+  }
+
+  85.7% {
+    content: "—";
+  }
+
+  100% {
+    content: "\\";
+  }
+}

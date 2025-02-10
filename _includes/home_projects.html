@@ -1,0 +1,7 @@
+<h3>Things I've Made</h3>
+
+{%- for project in site.projects limit: site.number_of_projects -%}
+      <a href="{{ project.url }}">{{ project.title | escape }}</a> - {{ project.description }}
+    <br />
+  {%- endfor -%}
+
