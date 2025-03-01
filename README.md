@@ -1,2 +1,1 @@
-# aminn04.github.io
-Homepage
+Nothing to read here, move along

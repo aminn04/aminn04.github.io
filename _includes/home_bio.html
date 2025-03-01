@@ -1,0 +1,32 @@
+<section id="introduction">
+    <div class="wrapper">
+        <h3>{{ site.author.name }}</h3>
+        <article class="post">
+            <div class="post-content">
+                <p><a href="{{ site.author.instagram }}" target="_blank">
+                        <img alt="Amin Ali" src="{{ site.author.image }}" style="float: right; max-width: 33%; margin: 0 0 1em 2em; border-radius: 999px" />
+                    </a>
+                </p>
+                <p>I'm an {{ site.author.bio }}.</p>        
+
+                <p>I'm <cite>currently</cite> using <i>Artificial Intelligence</i> tools towards building a lean & self-serving Data Science platform for <a href="https://www.obepower.com/">OBE Power,</a> a leader in EV-Charging-as-a-Service provider.</p>
+
+                <p>I'm a big music fan and used to be very active on Spotify. I've since moved on to Apple Music but you can still find my <a href="{{ site.author.spotify}}">playlists</a> there.</p>
+
+                <p>I'm an avid <a href="https://www.hellobc.com">backpacker</a>, and in my <q>spare</q> time, to quote a famous bumper sticker, <q>I’d rather be hiking!</q></p>                    
+            </div>
+
+            <div class="terminal-menu">
+                <a href="{{ site.author.linkedin}}" class="ri-linkedin-fill ri-lg" rel="me"></a>
+                <a href="{{ site.author.mastodon}}" class="ri-mastodon-fill ri-lg" rel="me"></a>
+                <a href="{{ site.author.instagram}}" class="ri-instagram-fill ri-lg" rel="me"></a>  
+                <a href="{{ site.author.spotify}}" class="ri-spotify-fill ri-lg" rel="me"></a>  
+            </div>
+        </article>
+    </div>
+</section>
+
+{%- include gap.html -%}
+
+{%- include gap.html -%}
+
