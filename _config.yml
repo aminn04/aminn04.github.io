@@ -14,7 +14,7 @@ author:
   image: /assets/profile.jpg
   image2: /assets/profile2.jpg
   icon: /assets/favicon.ico
-  email: mail[at]aminna[dot]li
+  email: mail[at]aminnali[dot]net
   mastodon: https://mathstodon.xyz/@aminn04
   spotify: https://open.spotify.com/user/aminn04 
   instagram: https://instagram.com/aminn04/
@@ -22,7 +22,7 @@ author:
   
   
 # URL settings
-url: https://aminna.li
+url: https://aminn04.github.io
 baseurl: /
 umami_analytics: # leave it blank if not wish
 
