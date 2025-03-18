@@ -1,5 +1,5 @@
 :root {
-    --global-font-size: 15px;
+    --global-font-size: 18px;
     --global-line-height: 1.4em;
     --global-space: 10px;
     --font-stack: "Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif;
@@ -50,7 +50,10 @@ body {
     font-family: var(--font-stack);
     word-wrap: break-word;
     background-color: #fff;
-    background-color: var(--background-color)
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
 }
 
 h1,

@@ -16,11 +16,3 @@ permalink: /contact/
         </article>
     </div>
 </section>
-
-{%- include gap.html -%}
-
-{%- include gap.html -%}
-
-{%- include gap.html -%}
-
-{%- include gap.html -%}
