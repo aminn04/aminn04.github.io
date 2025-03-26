@@ -12,7 +12,7 @@ permalink: /about/
                         <img alt="Amin Ali" src="{{ site.author.image2 }}" style="float: center; max-width: 90%; margin: 0 0 2em 2em; border-radius: 999px" />
                     </a>
                 </p>
-                <h3>whoami</h3>
+                <h3>{{ page.title }}</h3>
                 <p>I’m a first-generation <a href="https://the.ismaili/us/en/about/ismaili-community">Ismaili</a> immigrant from <a href="https://www.penguinrandomhouse.com/books/307954/instant-city-by-steve-inskeep/">South Asia.</a></p>    
                 <p>I studied Computer Science & Mathematics at <a href="https://www.gatech.edu">Georgia Tech,</a> where I learnt everything I know about technology, philosophy, hip-hop, and the South.</p> 
                 <p>My first job out of university was working as a Management Consultant for <a href="https://www2.deloitte.com/us/en/pages/advisory/articles/forensic-analytics-in-fraud-investigations.html">Deloitte Forensics,</a> where I learnt everything I know about project management, leadership, networking, corporate finance, indie rock, and the East Coast.</p> 
