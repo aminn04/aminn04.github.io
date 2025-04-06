@@ -1,6 +1,6 @@
 # Site settings
 title: Amin N Ali
-description: Data Expert & Music Aficionado
+description: Data Scientist & Music Aficionado
 lang: en-US 
 timezone: America/Los_Angeles
 
@@ -10,7 +10,7 @@ timezone: America/Los_Angeles
 # Profile settings
 author:
   name: Amin 'Mean Machine' Ali
-  bio: Analytics & AI Engineering leader and Indie Music aficionado
+  bio: Data Science leader and Indie Music aficionado
   image: /assets/profile.jpg
   image2: /assets/profile2.jpg
   icon: /assets/favicon.ico
