@@ -9,7 +9,7 @@ timezone: America/Los_Angeles
 
 # Profile settings
 author:
-  name: Amin 'Mean Machine' Ali
+  name: Amin N Ali
   bio: Data Science leader and Indie Music aficionado
   image: /assets/profile.jpg
   image2: /assets/profile2.jpg
@@ -19,7 +19,6 @@ author:
   spotify: https://open.spotify.com/user/aminn04 
   instagram: https://instagram.com/aminn04
   github: https://github.com/aminn04
-  twitter: https://x.com/aminn004
   linkedin: https://www.linkedin.com/in/aminnali/
   
   
