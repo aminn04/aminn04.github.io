@@ -1,6 +1,6 @@
 # Site settings
 title: Amin N Ali
-description: Data Scientist & Music Aficionado
+description: Analytics Pro & Music Aficionado
 lang: en-US 
 timezone: America/Los_Angeles
 
@@ -10,8 +10,8 @@ timezone: America/Los_Angeles
 # Profile settings
 author:
   name: Amin N Ali
-  bio: Data Science leader and Indie Music aficionado
-  image: /assets/profile.jpg
+  bio: Data Analytics professional and Indie Music aficionado
+  image: /assets/profile.png
   image2: /assets/profile2.jpg
   icon: /assets/favicon.ico
   email: mail[at]aminn[dot]ca
