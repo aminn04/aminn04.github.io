@@ -1,32 +1,32 @@
 # Site settings
 title: Amin N Ali
-description: Analytics Pro & Music Aficionado
-lang: en-US 
+description: Analytics Expert & AI Enthusiast
+lang: en-US
 timezone: America/Los_Angeles
-
-
-
 
 # Profile settings
 author:
   name: Amin N Ali
-  bio: Data Analytics professional and Indie Music aficionado
-  image: /assets/profile1.png
-  image2: /assets/profile2.jpg
+  bio: Analytics expert & AI enthusiast
+  image: /assets/profile.jpg
   icon: /assets/favicon.ico
+  em_icon: /assets/i8-mail.svg
   email: mail[at]aminn[dot]ca
+  li_icon: /assets/i8-linkedin.svg
+  tw_icon: /assets/i8-x.svg
+  md_icon: /assets/i8-mastodon.svg
+  ig_icon: /assets/i8-instagram.svg
+  sp_icon: /assets/i8-music.svg
   linkedin: https://www.linkedin.com/in/aminnali/
   twitter: https://x.com/aminn004
   mastodon: https://mathstodon.xyz/@aminn04
-  spotify: https://open.spotify.com/user/aminn04 
   instagram: https://instagram.com/aminn04
+  spotify: https://open.spotify.com/user/aminn04
   
-  
-# URL settings
-url: https://aminn.ca
-baseurl: /
-umami_analytics: # leave it blank if not wish
 
+# URL settings
+url: https://aminn.ca/
+baseurl: /
 
 # Build settings
 theme: minima
@@ -36,7 +36,6 @@ plugins:
   # - jekyll-feed
   - jekyll-sitemap
   - jekyll-email-protect
-
 
 # Exclude from processing.
 exclude:

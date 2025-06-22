@@ -1,8 +1,0 @@
-
-<h3>Things I've Written</h3>
-  {%- for post in site.posts limit: site.number_of_posts -%}
-      <a href="{{ post.url }}">{{ post.title | escape }}</a>
-    <br />
-  {%- endfor -%}
-
-  
