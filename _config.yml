@@ -1,13 +1,13 @@
 # Site settings
 title: Amin N Ali
-description: Analytics & AI Engineer
+description: Analytics & AI
 lang: en-US
 timezone: America/Los_Angeles
 
 # Profile settings
 author:
   name: Amin N Ali
-  bio: Analytics & AI Engineer
+  bio: Analytics & AI
   image: /assets/profile.png
   icon: /assets/favicon.ico
   em_icon: /assets/i8-mail.svg
