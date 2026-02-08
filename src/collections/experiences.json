@@ -1,0 +1,44 @@
+[
+  {
+    "dates": "2025 - Current",
+    "role": "Senior Analytics Engineer",
+    "company": "Workstream Software",
+    "description": "Embedded Reporting Lead at the B2B startup focusing on Hiring and Payroll solutions.",
+    "logo": "/assets/images/experiences/workstream.ico"
+  },
+  {
+    "dates": "2024 - 2025",
+    "role": "Senior Data Scientist",
+    "company": "OBE Power",
+    "description": "Data Science Lead at the largest EV-Charging-as-a-Service network in Southern US.",
+    "logo": "/assets/images/experiences/obe.ico"
+  },
+  {
+    "dates": "2020 - 2023",
+    "role": "Product Analytics Manager",
+    "company": "Dialpad Software",
+    "description": "Product Analytics Lead at the B2B startup focusing on AI-powered VoIP & Contact Center solutions.",
+    "logo": "/assets/images/experiences/dialpad.ico"
+  },
+  {
+    "dates": "2015 - 2019",
+    "role": "Data Scientist",
+    "company": "Monstercat Music",
+    "description": "Data Science Lead at Canada’s largest music startup.",
+    "logo": "/assets/images/experiences/monstercat.ico"
+  },
+  {
+    "dates": "2011 - 2014",
+    "role": "Management Consultant",
+    "company": "Deloitte Consulting",
+    "description": "Data Analytics SME with the Forensic Analytics practice.",
+    "logo": "/assets/images/experiences/deloitte.ico"
+  },
+  {
+    "dates": "2009 - 2011",
+    "role": "Teaching Assistant",
+    "company": "Georgia Tech",
+    "description": "TA for freshmen-level Computer Science & Mathematics courses.",
+    "logo": "/assets/images/experiences/georgiatech.ico"
+  }
+]

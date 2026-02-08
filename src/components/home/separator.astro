@@ -1,0 +1,37 @@
+---
+const { text, compact = false } = Astro.props;
+---
+
+<div class={`relative ${compact ? 'mt-8' : 'mt-16'} mb-8`}>
+  <div class="relative w-full pl-5 overflow-x-hidden md:pl-0">
+    <div
+      class="absolute w-full h-px bg-gradient-to-r from-transparent to-pnw-sea-50 md:from-pnw-sea-50 dark:from-transparent dark:to-pnw-sea-950 md:dark:from-pnw-sea-950 md:via-transparent md:dark:via-transparent md:to-pnw-sea-50 md:dark:to-pnw-sea-950"
+    >
+    </div>
+    <div
+      class="w-full h-px border-t border-dashed border-pnw-sea-300 dark:border-pnw-sea-600"
+    >
+    </div>
+  </div>
+  <div
+    class="absolute flex items-center justify-center w-auto h-auto px-3 py-1.5 uppercase tracking-widest space-x-1 text-[0.6rem] md:-translate-x-1/2 -translate-y-1/2 border rounded-full bg-pnw-sea-50 dark:bg-pnw-sea-900 text-pnw-sea-500 left-0 md:ml-0 ml-5 md:left-1/2 border-pnw-sea-200 dark:border-pnw-sea-700 shadow-sm"
+  >
+    <p class="leading-none">{text}</p>
+    <div
+      class="flex items-center justify-center w-5 h-5 translate-x-1 border rounded-full border-pnw-sea-200 dark:border-pnw-sea-700"
+    >
+      <svg
+        class="w-3 h-3"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"></path></svg
+      >
+    </div>
+  </div>
+</div>

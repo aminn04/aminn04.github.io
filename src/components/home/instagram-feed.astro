@@ -1,0 +1,23 @@
+---
+import socials from "../../collections/socials.json";
+const posts = socials.instagram.slice(0, 3);
+---
+
+<section class="max-w-4xl mx-auto px-7 lg:px-0">
+  <div class="w-full max-w-4xl mx-auto xl:px-0">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {
+        posts.map((shortcode) => (
+          <div class="relative overflow-hidden rounded-2xl border border-dashed border-pnw-sea-300 dark:border-pnw-sea-600 bg-white dark:bg-pnw-sea-950 aspect-square">
+            <iframe
+              src={`https://www.instagram.com/p/${shortcode}/embed/captioned/`}
+              class="absolute inset-0 w-[300%] h-[300%] origin-top-left scale-[0.3333] border-0"
+              loading="lazy"
+              allowtransparency="true"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

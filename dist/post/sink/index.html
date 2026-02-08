@@ -1,0 +1,39 @@
+<!DOCTYPE html><p>I previously shared some websites on <a href="https://x.com/0xKaiBi">Twitter</a> using short links to make it easier to see if people are interested. Among these link shortening systems, Dub provides the best user experience, but it has a fatal flaw: once the monthly clicks exceed 1000, you can no longer view the statistics.</p>
+<p>While surfing the internet at home during the Qingming Festival, I discovered that <a href="https://developers.cloudflare.com/analytics/analytics-engine/">Cloudflare Workers Analytics Engine</a> supports data writing and API data querying. So, I created an MVP version myself, capable of handling statistics for up to 3,000,000 visits per month. Cloudflare’s backend likely uses Clickhouse, so performance shouldn’t be a significant issue.</p>
+<p>During the Labor Day holiday, I improved the frontend UI at home and used it for about half a month, finding it satisfactory. I have open-sourced it for everyone to use.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Link shortening</li>
+<li>Visit statistics</li>
+<li>Serverless deployment</li>
+<li>Custom Slug</li>
+<li>🪄 AI-generated Slug</li>
+<li>Link expiration</li>
+</ul>
+<h2 id="demo">Demo</h2>
+<p><a href="https://sink.cool/dashboard">Sink.Cool</a></p>
+<p>Site Token: <code>SinkCool</code></p>
+<h3 id="site-wide-analysis">Site-wide Analysis</h3>
+<p><img src="https://static.miantiao.me/share/CBuVes/sink.cool_dashboard.png" alt="Site-wide Analysis"></p>
+<details>
+  <summary><b>Link Management</b></summary>
+  <img alt="Link Management" src="https://static.miantiao.me/share/uQVX7Q/sink.cool_dashboard_links.png">
+</details>
+<details>
+  <summary><b>Individual Link Analysis</b></summary>
+  <img alt="Individual Link Analysis" src="https://static.miantiao.me/share/WfyCXT/sink.cool_dashboard_link_slug=0.png">
+</details>
+<h2 id="open-source">Open Source</h2>
+<p><a href="https://github.com/ccbikai/sink"><img src="https://github.html.zone/ccbikai/sink" alt="ccbikai/sink - GitHub"></a></p>
+<h2 id="roadmap-wip">Roadmap (WIP)</h2>
+<ul>
+<li>Browser extension</li>
+<li>Raycast extension</li>
+<li>Apple Shortcuts</li>
+<li>Enhanced link management (based on Cloudflare D1)</li>
+<li>Enhanced analysis (support filtering)</li>
+<li>Panel performance optimization (support infinite loading)</li>
+<li>Support for other platforms (maybe)</li>
+</ul>
+<hr>
+<p>Finally, feel free to follow me on <a href="https://x.com/0xKaiBi">Twitter</a> for updates on development progress and to share some web development news.</p>

@@ -1,0 +1,106 @@
+<!DOCTYPE html><p>I recently updated the <a href="https://hacker-news.agi.li/">Hacker News Chinese Podcast</a> to use a dual-speaker format. Since current speech synthesis models don’t handle two-person dialogues very well, I needed a way to merge the audio files for each speaker.</p>
+<p>The project runs on the Cloudflare Workers runtime, which lacks many Node.js features and cannot call C++ extensions. Furthermore, Cloudflare Containers aren’t generally available yet. This meant I had to use the Browser Rendering API for the audio merging task.</p>
+<p>FFmpeg is the standard tool for merging audio files, and fortunately, it can now run in the browser via WASM. So, the overall technical approach is:</p>
+<ol>
+<li>Use a Worker Binding to launch a browser instance (via the Browser Rendering API).</li>
+<li>Have the browser navigate to an audio merging page, perform the merge operation on the audio files, and return the result as a Blob.</li>
+<li>Receive the Blob back in the Worker and upload it to R2 storage.</li>
+</ol>
+<p>The overall code footprint for this isn’t large, but debugging was tricky because Browser Rendering runs remotely.</p>
+<p>Here’s the final implementation code:</p>
+<h3 id="browser-side-audio-merging-code">Browser-Side Audio Merging Code</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>&#x3C;!doctype html></span></span>
+<span class="line"><span>&#x3C;html lang="en"></span></span>
+<span class="line"><span>  &#x3C;head></span></span>
+<span class="line"><span>    &#x3C;meta charset="UTF-8" /></span></span>
+<span class="line"><span>    &#x3C;meta name="viewport" content="width=device-width, initial-scale=1.0" /></span></span>
+<span class="line"><span>    &#x3C;title>Audio&#x3C;/title></span></span>
+<span class="line"><span>  &#x3C;/head></span></span>
+<span class="line"><span>  &#x3C;body></span></span>
+<span class="line"><span>    &#x3C;script></span></span>
+<span class="line"><span>      const concatAudioFilesOnBrowser = async (audioFiles) => {</span></span>
+<span class="line"><span>        const script = document.createElement('script')</span></span>
+<span class="line"><span>        script.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js'</span></span>
+<span class="line"><span>        document.head.appendChild(script)</span></span>
+<span class="line"><span>        await new Promise((resolve) => (script.onload = resolve))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        const { createFFmpeg, fetchFile } = FFmpeg</span></span>
+<span class="line"><span>        const ffmpeg = createFFmpeg({ log: true })</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        await ffmpeg.load()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Download and write each file to FFmpeg's virtual file system</span></span>
+<span class="line"><span>        for (const [index, audioFile] of audioFiles.entries()) {</span></span>
+<span class="line"><span>          const audioData = await fetchFile(audioFile)</span></span>
+<span class="line"><span>          ffmpeg.FS('writeFile', `input${index}.mp3`, audioData)</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Create a file list for ffmpeg concat</span></span>
+<span class="line"><span>        const fileList = audioFiles.map((_, i) => `file 'input${i}.mp3'`).join('\n')</span></span>
+<span class="line"><span>        ffmpeg.FS('writeFile', 'filelist.txt', fileList)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Execute FFmpeg command to concatenate files</span></span>
+<span class="line"><span>        await ffmpeg.run(</span></span>
+<span class="line"><span>          '-f',</span></span>
+<span class="line"><span>          'concat',</span></span>
+<span class="line"><span>          '-safe',</span></span>
+<span class="line"><span>          '0',</span></span>
+<span class="line"><span>          '-i',</span></span>
+<span class="line"><span>          'filelist.txt',</span></span>
+<span class="line"><span>          '-c:a',</span></span>
+<span class="line"><span>          'libmp3lame',</span></span>
+<span class="line"><span>          '-q:a',</span></span>
+<span class="line"><span>          '5',</span></span>
+<span class="line"><span>          'output.mp3',</span></span>
+<span class="line"><span>        )</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Read the output file</span></span>
+<span class="line"><span>        const data = ffmpeg.FS('readFile', 'output.mp3')</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Create a downloadable link</span></span>
+<span class="line"><span>        const blob = new Blob([data.buffer], { type: 'audio/mp3' })</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // Clean up</span></span>
+<span class="line"><span>        audioFiles.forEach((_, i) => {</span></span>
+<span class="line"><span>          ffmpeg.FS('unlink', `input${i}.mp3`)</span></span>
+<span class="line"><span>        })</span></span>
+<span class="line"><span>        ffmpeg.FS('unlink', 'filelist.txt')</span></span>
+<span class="line"><span>        ffmpeg.FS('unlink', 'output.mp3')</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        return blob</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>    &#x3C;/script></span></span>
+<span class="line"><span>  &#x3C;/body></span></span>
+<span class="line"><span>&#x3C;/html></span></span></code></pre>
+<h3 id="worker-codes">Worker Codes</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>export async function concatAudioFiles(audioFiles: string[], BROWSER: Fetcher, { workerUrl }: { workerUrl: string }) {</span></span>
+<span class="line"><span>  const browser = await puppeteer.launch(BROWSER)</span></span>
+<span class="line"><span>  const page = await browser.newPage()</span></span>
+<span class="line"><span>  await page.goto(`${workerUrl}/audio`)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  console.info('start concat audio files', audioFiles)</span></span>
+<span class="line"><span>  const fileUrl = await page.evaluate(async (audioFiles) => {</span></span>
+<span class="line"><span>    // JS runs here in the browser.</span></span>
+<span class="line"><span>    // @ts-expect-error Objects in the browser</span></span>
+<span class="line"><span>    const blob = await concatAudioFilesOnBrowser(audioFiles)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    const result = new Promise((resolve, reject) => {</span></span>
+<span class="line"><span>      const reader = new FileReader()</span></span>
+<span class="line"><span>      reader.onloadend = () => resolve(reader.result)</span></span>
+<span class="line"><span>      reader.onerror = reject</span></span>
+<span class="line"><span>      reader.readAsDataURL(blob)</span></span>
+<span class="line"><span>    })</span></span>
+<span class="line"><span>    return await result</span></span>
+<span class="line"><span>  }, audioFiles) as string</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  console.info('concat audio files result', fileUrl.substring(0, 100))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  await browser.close()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  const response = await fetch(fileUrl)</span></span>
+<span class="line"><span>  return await response.blob()</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const audio = await concatAudioFiles(audioFiles, env.BROWSER, { workerUrl: env.HACKER_NEWS_WORKER_URL })</span></span>
+<span class="line"><span>return new Response(audio)</span></span></code></pre>
+<p>The above code is basically written by Cursor, and the final effect can be viewed at <a href="https://github.com/ccbikai/hacker-news/tree/main/worker">Hacker News Code Repository</a>.</p>

@@ -1,0 +1,29 @@
+<!DOCTYPE html><p>I have been sharing some interesting tools on <a href="https://x.com/0xKaibi">X</a> and also synchronizing them to my Telegram Channel. I saw that <a href="https://x.com/austinit/status/1817832660758081651">Austin mentioned he is preparing to create a website</a> to compile all the shared content. This reminded me of a template I recently came across called <a href="https://github.com/Planetable/SiteTemplateSepia">Sepia</a>, and I thought about converting the Telegram Channel into a microblog.</p>
+<p>The difficulty wasn’t high; I completed the main functionality over a weekend. During the process, I achieved a browser-side implementation with zero JavaScript and would like to share some interesting technical points:</p>
+<ol>
+<li>
+<p>The anti-spoiler mode and the hidden display of the mobile search box were implemented using the CSS “:checked pseudo-class” and the ”+ adjacent sibling combinator.” <a href="https://www.tpisoftware.com/tpu/articleDetails/2744">Reference</a></p>
+</li>
+<li>
+<p>The transition animations utilized CSS View Transitions. <a href="https://liruifengv.com/posts/zero-js-view-transitions/">Reference</a></p>
+</li>
+<li>
+<p>The image lightbox used the HTML popover attribute. <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/popover">Reference</a></p>
+</li>
+<li>
+<p>The display and hiding of the “back to top” feature were implemented using CSS animation-timeline, exclusive to Chrome version 115 and above. <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-timeline/view">Reference</a></p>
+</li>
+<li>
+<p>The multi-image masonry layout was achieved using grid layout. <a href="https://www.smashingmagazine.com/native-css-masonry-layout-css-grid/">Reference</a></p>
+</li>
+<li>
+<p>The visit statistics were tracked using a 1px transparent image as the logo background, an ancient technique that is now rarely supported by visit statistics software.</p>
+</li>
+<li>
+<p>JavaScript execution on the browser side was prohibited using the Content-Security-Policy’s script-src ‘none’. <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/script-src">Reference</a></p>
+</li>
+</ol>
+<p>After completing the project, I open-sourced it, and I was pleasantly surprised by the number of people who liked it; I received over 800 stars in just a week.</p>
+<p>If you’re interested, you can check it out on GitHub.</p>
+<p><a href="https://github.com/ccbikai/BroadcastChannel">https://github.com/ccbikai/BroadcastChannel</a></p>
+<p><a href="https://github.com/ccbikai/BroadcastChannel"><img src="https://github.html.zone/ccbikai/BroadcastChannel" alt="BroadcastChannel repository on GitHub"></a></p>

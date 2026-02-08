@@ -1,0 +1,49 @@
+<!DOCTYPE html><p>I came across the concept of the Fediverse at the beginning of this year and found that it is the social network I have always envisioned: each instance is like an isolated island, connected through the network to communicate with each other.</p>
+<blockquote>
+<p>To learn more about the Fediverse, you can read the blog posts from these individuals:</p>
+<ul>
+<li><a href="https://zerovip.vercel.app/zh/59563/">Introduction to the Fediverse</a></li>
+<li><a href="https://wzyboy.im/post/1486.html">Fediverse: The Federated Universe</a></li>
+<li><a href="https://fermi.ink/posts/2022/11/22/01/">What is the Fediverse and Can It Decentralize the Internet?</a></li>
+<li><a href="https://limboy.me/posts/mastodon/">What is Mastodon and How to Use It</a></li>
+<li><a href="https://wzyboy.im/post/1513.html">Fediverse Guide for Twitter Users</a></li>
+</ul>
+</blockquote>
+<p>As a self-hosting enthusiast, I wanted to deploy my own instance. I asked about the cost of self-hosting on Mastodon and found that the minimum cost is $15/year for a server and domain name. In order to reduce costs, I didn’t purchase a VPS and instead deployed my own instance on my Homelab. It has been running for half a year with a few issues (mainly due to my tinkering) such as internet or power outages at home. Since downtime results in lost messages, I decided to migrate to a server.</p>
+<p>Among the popular software, Mastodon has more features but consumes more resources, so I chose <a href="https://pleroma.social/">Pleroma</a> which consumes fewer resources but still meets my needs. I deployed it on various free services, achieving a server cost of $0 with only the domain name cost remaining. It has been running stable for a quarter.</p>
+<p><img src="https://static.miantiao.me/share/nNbzS2/miantiao.me_chi.jpg" alt="chi@miantiao.me"></p>
+<p>Therefore, I would like to share this solution:</p>
+<ul>
+<li>
+<p>Cloud platforms:</p>
+<ol>
+<li><a href="https://app.koyeb.com/">Koyeb</a></li>
+<li><a href="https://northflank.com/">Northflank</a></li>
+<li><a href="https://s.mt.ci/WrK7Dc">Zeabur</a> (Originally free, but now only available through subscription plans (free plan is for testing only))</li>
+</ol>
+</li>
+<li>
+<p>Database:</p>
+<ol>
+<li><a href="https://s.mt.ci/dgQGhM">Aiven</a></li>
+<li><a href="https://neon.tech/">Neon</a></li>
+</ol>
+</li>
+<li>
+<p>Cloud storage:</p>
+<ol>
+<li><a href="https://www.cloudflare.com/zh-cn/developer-platform/r2/">Cloudflare R2</a></li>
+<li><a href="https://www.backblaze.com/">Backblaze B2</a></li>
+</ol>
+</li>
+<li>
+<p>CDN:</p>
+<ol>
+<li><a href="https://www.cloudflare.com/">Cloudflare</a></li>
+</ol>
+</li>
+</ul>
+<p>Deployment tutorial:</p>
+<p><a href="https://github.com/ccbikai/pleroma-on-cloud"><img src="https://github.html.zone/ccbikai/pleroma-on-cloud" alt="ccbikai/pleroma-on-cloud - GitHub"></a></p>
+<p>Remember, free things are often the most expensive. It is important to regularly back up the database and cloud storage.</p>
+<p><strong>Lastly, feel free to follow me on the Fediverse (Mastodon, Pleroma, etc.) at <a href="https://miantiao.me/@chi">@chi@miantiao.me</a>.</strong></p>

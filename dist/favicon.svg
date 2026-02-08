@@ -1,0 +1,52 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .hex-outer { stroke: #93c5d9; fill: rgba(14, 48, 62, 0.5); }
+      .hex-inner { stroke: #4ba3c3; }
+      .letter-a1 { stroke: #c5e3ef; }
+      .letter-a2 { stroke: #4ba3c3; }
+      .dot { fill: #4ba3c3; }
+    }
+    @media (prefers-color-scheme: light) {
+      .hex-outer { stroke: #0c5776; fill: rgba(224, 242, 249, 0.5); }
+      .hex-inner { stroke: #1a8ab5; }
+      .letter-a1 { stroke: #0c5776; }
+      .letter-a2 { stroke: #1a8ab5; }
+      .dot { fill: #1a8ab5; }
+    }
+  </style>
+  <!-- Outer hexagon frame -->
+  <path
+    d="M24 2L44 14V34L24 46L4 34V14L24 2Z"
+    class="hex-outer"
+    stroke-width="1.5"
+  />
+  <!-- Inner geometric accent -->
+  <path
+    d="M24 8L38 16V32L24 40L10 32V16L24 8Z"
+    class="hex-inner"
+    stroke-width="0.75"
+    fill="none"
+  />
+  <!-- First A - left -->
+  <path
+    d="M14 32L20 16L26 32M16 27H24"
+    class="letter-a1"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Second A - right, slightly overlapping -->
+  <path
+    d="M22 32L28 16L34 32M24 27H32"
+    class="letter-a2"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Futuristic accent dots -->
+  <circle cx="24" cy="6" r="1.5" class="dot" />
+  <circle cx="24" cy="42" r="1.5" class="dot" />
+</svg>

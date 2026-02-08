@@ -1,0 +1,24 @@
+<!DOCTYPE html><p>Previously, when sharing GitHub on my blog, I always used <a href="https://gh-card.dev/">GitHub Repository Card</a> for sharing, but it doesn’t have good support for Chinese and doesn’t support line breaks.</p>
+<p><a href="https://github.com/ccbikai/cloudflare-worker-image"><img src="https://gh-card.dev/repos/ccbikai/cloudflare-worker-image.svg?fullname=" alt="ccbikai/cloudflare-worker-image - GitHub"></a></p>
+<p>Originally, I planned to create my own using <a href="https://vercel.com/docs/functions/edge-functions/og-image-generation">@vercel/og</a>, but I accidentally discovered that GitHub provides comprehensive and beautiful Open Graph images on Twitter. So, I wrote a script to extract and use them for blog previews.</p>
+<h2 id="demo">Demo</h2>
+<p><img src="https://github.html.zone/nasa/fprime" alt="nasa/fprime - GitHub"></p>
+<p><img src="https://static.miantiao.me/share/9ZxTs8/RZHfnD.png" alt="A framework for building Open Graph images"></p>
+<p>In addition to repositories, GitHub’s Open Graph also supports previews for Issue, Pull Request, Discussion, and Commit modules.</p>
+<h2 id="usage">Usage</h2>
+<p><strong>Modify <code>.com</code> to <code>.html.zone</code> on any GitHub page</strong>.</p>
+<p>For example, <a href="https://github.com/vercel/next.js">https://github.com/vercel/next.js</a> => <a href="https://github.html.zone/vercel/next.js">https://github.html.zone/vercel/next.js</a>.</p>
+<h3 id="previews">Previews</h3>
+<h4 id="repo">Repo</h4>
+<p><img src="https://github.html.zone/vercel/next.js" alt="Repo"></p>
+<h4 id="issue">Issue</h4>
+<p><img src="https://github.html.zone/vuejs/core/issues/9862" alt="Issue"></p>
+<h4 id="pull-request">Pull Request</h4>
+<p><img src="https://github.html.zone/lobehub/lobe-chat/pull/529" alt="Pull Request"></p>
+<h4 id="discussion">Discussion</h4>
+<p><img src="https://github.html.zone/lobehub/lobe-chat/discussions/551" alt="Discussion"></p>
+<h4 id="commit">Commit</h4>
+<p><img src="https://github.html.zone/vercel/next.js/commit/a65fb162989fd00ca21534947538b8dbb6bf7f86" alt="Commit"></p>
+<h2 id="source-code">Source Code</h2>
+<p>The code has been shared on GitHub for those interested to explore.</p>
+<p><a href="https://github.com/ccbikai/github-og-image"><img src="https://github.html.zone/ccbikai/github-og-image" alt="ccbikai/github-og-image - GitHub"></a></p>

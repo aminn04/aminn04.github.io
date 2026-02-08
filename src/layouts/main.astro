@@ -1,0 +1,121 @@
+---
+import Footer from "../components/footer.astro";
+import Header from "../components/header.astro";
+const { title, description = "Amin Ali is an Analytics Engineering expert based in Vancouver, Canada. Specializing in scalable data solutions, analytics architecture, and data-driven teams." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Amin, Ali, Amin Ali, Vancouver, Data, Analytics Engineer, Data Science, dbt, Snowflake, BigQuery" />
+    <meta name="author" content="Amin Ali" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_CA" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Used to add dark mode right away, adding here prevents any flicker -->
+    <script is:inline>
+      if (typeof Storage !== 'undefined') {
+        if (
+          localStorage.getItem('dark_mode') &&
+          localStorage.getItem('dark_mode') == 'true'
+        ) {
+          document.documentElement.classList.add('dark')
+        }
+      }
+    </script>
+
+    <style>
+      .prose img {
+        border-radius: 20px;
+      }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Lobster&display=swap" rel="stylesheet">
+    <script src="../assets/css/main.css"></script>
+    <Fragment set:html={import.meta.env.HEADER_INJECT} />
+  </head>
+  <body class="antialiased bg-slate-50 dark:bg-slate-950 min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <script src="../assets/js/main.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script is:inline>
+      // Pacific Northwest Salish Sea colors - Initialize Vanta fog for header and footer
+      function initVantaFog() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const vantaConfig = {
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          highlightColor: isDark ? 0x1a3a4a : 0x8fb8c8,
+          midtoneColor: isDark ? 0x0f2027 : 0xb4c9d4,
+          lowlightColor: isDark ? 0x071a1f : 0xdde8ed,
+          baseColor: isDark ? 0x0a1015 : 0xeef4f7,
+          blurFactor: 0.6,
+          speed: 1.5,
+          zoom: 1.2
+        };
+
+        // Initialize header fog
+        if (document.getElementById('vanta-header')) {
+          window.vantaHeader = VANTA.FOG({
+            el: "#vanta-header",
+            ...vantaConfig
+          });
+        }
+
+        // Initialize footer fog
+        if (document.getElementById('vanta-footer')) {
+          window.vantaFooter = VANTA.FOG({
+            el: "#vanta-footer",
+            ...vantaConfig
+          });
+        }
+      }
+
+      initVantaFog();
+      
+      // Update colors when dark mode toggles
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newColors = {
+              highlightColor: isDark ? 0x1a3a4a : 0x8fb8c8,
+              midtoneColor: isDark ? 0x0f2027 : 0xb4c9d4,
+              lowlightColor: isDark ? 0x071a1f : 0xdde8ed,
+              baseColor: isDark ? 0x0a1015 : 0xeef4f7
+            };
+            if (window.vantaHeader) window.vantaHeader.setOptions(newColors);
+            if (window.vantaFooter) window.vantaFooter.setOptions(newColors);
+          }
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+    </script>
+    <Fragment set:html={import.meta.env.FOOTER_INJECT} />
+  </body>
+</html>

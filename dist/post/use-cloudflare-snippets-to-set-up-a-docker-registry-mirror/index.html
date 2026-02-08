@@ -1,0 +1,176 @@
+<!DOCTYPE html><p>Using Cloudflare Workers to set up Docker image proxies works fine for personal use with low request volumes. However, if made public, high request volumes can incur significant costs.</p>
+<p>Actually, Cloudflare has an even lighter JS Runtime called Cloudflare Snippets, though it comes with stricter limitations: 5ms CPU execution time, 2MB memory limit, and 32KB code size limit. Still, it’s sufficient for request rewriting purposes.</p>
+<p>Unfortunately, Cloudflare Snippets isn’t currently available for Free plans, although <a href="https://blog.cloudflare.com/zh-cn/snippets-announcement/">their blog mentions that Free plans can create 5 Snippets</a>.</p>
+<p>If you have a Pro plan, you can slightly modify the Cloudflare Workers code to run it. It supports Docker Hub, Google Container Registry, GitHub Container Registry, Amazon Elastic Container Registry, Kubernetes Container Registry, Quay, and Cloudsmith.</p>
+<p>Modified code:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">// Raw Codes: https://github.com/ciiiii/cloudflare-docker-proxy/blob/master/src/index.js</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> CUSTOM_DOMAIN</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'your.domains'</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> MODE</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'production'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> dockerHub</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'https://registry-1.docker.io'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> routes</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">    // production</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`docker.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: dockerHub,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`quay.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://quay.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`gcr.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://gcr.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`k8s-gcr.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://k8s.gcr.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`k8s.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://registry.k8s.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`ghcr.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://ghcr.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`cloudsmith.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://docker.cloudsmith.io'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`ecr.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: </span><span style="color:#9ECBFF">'https://public.ecr.aws'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // staging</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#9ECBFF">`docker-staging.${</span><span style="color:#79B8FF">CUSTOM_DOMAIN</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">]: dockerHub,</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> handleRequest</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">request</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> url</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(request.url)</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> upstream</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> routeByHosts</span><span style="color:#E1E4E8">(url.hostname)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (upstream </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> ''</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Response</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#79B8FF">            JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">                routes,</span></span>
+<span class="line"><span style="color:#E1E4E8">            }), {</span></span>
+<span class="line"><span style="color:#E1E4E8">                status: </span><span style="color:#79B8FF">404</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            },</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> isDockerHub</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> upstream </span><span style="color:#F97583">===</span><span style="color:#E1E4E8"> dockerHub</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> authorization</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> request.headers.</span><span style="color:#B392F0">get</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'Authorization'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (url.pathname </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> '/v2/'</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> newUrl</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`${</span><span style="color:#E1E4E8">upstream</span><span style="color:#9ECBFF">}/v2/`</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> headers</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Headers</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (authorization) {</span></span>
+<span class="line"><span style="color:#E1E4E8">            headers.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'Authorization'</span><span style="color:#E1E4E8">, authorization)</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#6A737D">        // check if need to authenticate</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> resp</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(newUrl.</span><span style="color:#B392F0">toString</span><span style="color:#E1E4E8">(), {</span></span>
+<span class="line"><span style="color:#E1E4E8">            method: </span><span style="color:#9ECBFF">'GET'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            headers,</span></span>
+<span class="line"><span style="color:#E1E4E8">            redirect: </span><span style="color:#9ECBFF">'follow'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        })</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (resp.status </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> 401</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#B392F0"> responseUnauthorized</span><span style="color:#E1E4E8">(url)</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> resp</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // get token</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (url.pathname </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> '/v2/auth'</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> newUrl</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`${</span><span style="color:#E1E4E8">upstream</span><span style="color:#9ECBFF">}/v2/`</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> resp</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(newUrl.</span><span style="color:#B392F0">toString</span><span style="color:#E1E4E8">(), {</span></span>
+<span class="line"><span style="color:#E1E4E8">            method: </span><span style="color:#9ECBFF">'GET'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            redirect: </span><span style="color:#9ECBFF">'follow'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        })</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (resp.status </span><span style="color:#F97583">!==</span><span style="color:#79B8FF"> 401</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> resp</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> authenticateStr</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> resp.headers.</span><span style="color:#B392F0">get</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'WWW-Authenticate'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (authenticateStr </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> resp</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> wwwAuthenticate</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> parseAuthenticate</span><span style="color:#E1E4E8">(authenticateStr)</span></span>
+<span class="line"><span style="color:#F97583">        let</span><span style="color:#E1E4E8"> scope </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> url.searchParams.</span><span style="color:#B392F0">get</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'scope'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">        // autocomplete repo part into scope for DockerHub library images</span></span>
+<span class="line"><span style="color:#6A737D">        // Example: repository:busybox:pull => repository:library/busybox:pull</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (scope </span><span style="color:#F97583">&#x26;&#x26;</span><span style="color:#E1E4E8"> isDockerHub) {</span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> scopeParts</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> scope.</span><span style="color:#B392F0">split</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">':'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (scopeParts.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> ===</span><span style="color:#79B8FF"> 3</span><span style="color:#F97583"> &#x26;&#x26;</span><span style="color:#F97583"> !</span><span style="color:#E1E4E8">scopeParts[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">].</span><span style="color:#B392F0">includes</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'/'</span><span style="color:#E1E4E8">)) {</span></span>
+<span class="line"><span style="color:#E1E4E8">                scopeParts[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> `library/${</span><span style="color:#E1E4E8">scopeParts</span><span style="color:#9ECBFF">[</span><span style="color:#79B8FF">1</span><span style="color:#9ECBFF">]</span><span style="color:#9ECBFF">}`</span></span>
+<span class="line"><span style="color:#E1E4E8">                scope </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> scopeParts.</span><span style="color:#B392F0">join</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">':'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetchToken</span><span style="color:#E1E4E8">(wwwAuthenticate, scope, authorization)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // redirect for DockerHub library images</span></span>
+<span class="line"><span style="color:#6A737D">    // Example: /v2/busybox/manifests/latest => /v2/library/busybox/manifests/latest</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (isDockerHub) {</span></span>
+<span class="line"><span style="color:#F97583">        const</span><span style="color:#79B8FF"> pathParts</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> url.pathname.</span><span style="color:#B392F0">split</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'/'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (pathParts.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> ===</span><span style="color:#79B8FF"> 5</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">            pathParts.</span><span style="color:#B392F0">splice</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'library'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> redirectUrl</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(url)</span></span>
+<span class="line"><span style="color:#E1E4E8">            redirectUrl.pathname </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> pathParts.</span><span style="color:#B392F0">join</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'/'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> Response.</span><span style="color:#B392F0">redirect</span><span style="color:#E1E4E8">(redirectUrl, </span><span style="color:#79B8FF">301</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // foward requests</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> newUrl</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(upstream </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> url.pathname)</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> newReq</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Request</span><span style="color:#E1E4E8">(newUrl, {</span></span>
+<span class="line"><span style="color:#E1E4E8">        method: request.method,</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers: request.headers,</span></span>
+<span class="line"><span style="color:#E1E4E8">        redirect: </span><span style="color:#9ECBFF">'follow'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    })</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> resp</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(newReq)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (resp.status </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> 401</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#B392F0"> responseUnauthorized</span><span style="color:#E1E4E8">(url)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> resp</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> routeByHosts</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">host</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (host </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> routes) {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> routes[host]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">MODE</span><span style="color:#F97583"> ===</span><span style="color:#9ECBFF"> 'debug'</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> dockerHub</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#9ECBFF"> ''</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> parseAuthenticate</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">authenticateStr</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">    // sample: Bearer realm="https://auth.ipv6.docker.com/token",service="registry.docker.io"</span></span>
+<span class="line"><span style="color:#6A737D">    // match strings after =" and before "</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> re</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> /</span><span style="color:#DBEDFF">(?&#x3C;==")(?:</span><span style="color:#85E89D;font-weight:bold">\\</span><span style="color:#79B8FF">.</span><span style="color:#F97583">|</span><span style="color:#79B8FF">[</span><span style="color:#F97583">^</span><span style="color:#79B8FF">"</span><span style="color:#85E89D;font-weight:bold">\\</span><span style="color:#79B8FF">]</span><span style="color:#DBEDFF">)</span><span style="color:#F97583">*</span><span style="color:#DBEDFF">(?=")</span><span style="color:#9ECBFF">/</span><span style="color:#F97583">g</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> matches</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> authenticateStr.</span><span style="color:#B392F0">match</span><span style="color:#E1E4E8">(re)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (matches </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> null</span><span style="color:#F97583"> ||</span><span style="color:#E1E4E8"> matches.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> &#x3C;</span><span style="color:#79B8FF"> 2</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        throw</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Error</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`invalid Www-Authenticate Header: ${</span><span style="color:#E1E4E8">authenticateStr</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        realm: matches[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">        service: matches[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> fetchToken</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">wwwAuthenticate</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">scope</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">authorization</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> url</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> URL</span><span style="color:#E1E4E8">(wwwAuthenticate.realm)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (wwwAuthenticate.service.</span><span style="color:#79B8FF">length</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        url.searchParams.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'service'</span><span style="color:#E1E4E8">, wwwAuthenticate.service)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (scope) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        url.searchParams.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'scope'</span><span style="color:#E1E4E8">, scope)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> headers</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Headers</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (authorization) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'Authorization'</span><span style="color:#E1E4E8">, authorization)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(url, {</span></span>
+<span class="line"><span style="color:#E1E4E8">        method: </span><span style="color:#9ECBFF">'GET'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers</span></span>
+<span class="line"><span style="color:#E1E4E8">    })</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> responseUnauthorized</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">url</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> headers</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8">(Headers)()</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">MODE</span><span style="color:#F97583"> ===</span><span style="color:#9ECBFF"> 'debug'</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">            'Www-Authenticate'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            `Bearer realm="http://${</span><span style="color:#E1E4E8">url</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">host</span><span style="color:#9ECBFF">}/v2/auth",service="cloudflare-docker-proxy"`</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">else</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers.</span><span style="color:#B392F0">set</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">            'Www-Authenticate'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            `Bearer realm="https://${</span><span style="color:#E1E4E8">url</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">hostname</span><span style="color:#9ECBFF">}/v2/auth",service="cloudflare-docker-proxy"`</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Response</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">        message: </span><span style="color:#9ECBFF">'UNAUTHORIZED'</span></span>
+<span class="line"><span style="color:#E1E4E8">    }), {</span></span>
+<span class="line"><span style="color:#E1E4E8">        status: </span><span style="color:#79B8FF">401</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        headers,</span></span>
+<span class="line"><span style="color:#E1E4E8">    })</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#F97583"> default</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    fetch: handleRequest,</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>

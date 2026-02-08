@@ -1,0 +1,73 @@
+---
+import experiences from "../collections/experiences.json";
+import AboutExperience from "../components/about-experience.astro";
+import PageHeading from "../components/page-heading.astro";
+import Layout from "../layouts/main.astro";
+---
+
+<Layout title="Amin Ali - Vancouver, Canada">
+  <section class="relative z-20 max-w-2xl mx-auto mt-24 mb-12 px-7 lg:px-0">
+    <PageHeading
+      title="My Life"
+    />
+
+    <img src="/assets/images/about.jpg" class="relative z-30 w-full my-10 rounded-xl" />
+
+    <div class="space-y-5 text-sm leading-6 text-pnw-sea-700 dark:text-pnw-sea-200 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg">
+      
+      <p>
+        🌍 First-generation <span class="font-semibold">Ismaili immigrant</span> from South Asia — carrying stories across borders since day one.
+      </p>
+
+      <p>
+        🎵 Huge <span class="font-semibold">live music</span> junkie — if there's a show, I'm probably there. Check out my <a href="https://open.spotify.com/playlist/2RcKYgeMYwDjUrzdjH66mo?si=ulLYRsJMSvmfqjTrRvNdYg" target="_blank" class="text-pnw-sea-500 underline hover:text-pnw-sea-600 dark:text-pnw-sea-400 dark:hover:text-pnw-sea-300">Bands I've Seen Live</a> playlist!
+      </p>
+
+      <p>
+        🏀 Die-hard <span class="font-semibold">Toronto Raptors</span> fan — <a href="https://www.instagram.com/p/ByspfDIllg1/" target="_blank" class="text-pnw-sea-500 underline hover:text-pnw-sea-600 dark:text-pnw-sea-400 dark:hover:text-pnw-sea-300">We The North</a>!
+      </p>
+
+      <p>
+        🏙️ Splitting my time between two incredible cities:<br />
+        <span class="font-semibold">🌲 Vancouver</span> 
+        &nbsp;&amp;&nbsp; 
+        <span class="font-semibold">🤠 Dallas</span>
+      </p>
+
+      <p>
+        🗺️ Three countries, one wild ride:<br />
+        <span class="inline-flex items-center gap-2 flex-wrap">
+          <span class="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-sm">🇵🇰 Pakistan</span>
+          <span>→</span>
+          <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sm">🇺🇸 USA</span>
+          <span>→</span>
+          <span class="px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/40 text-sm">🇨🇦 Canada</span>
+        </span>
+      </p>
+
+      <p>
+        🗣️ Four languages in the toolkit:<br />
+        <span class="inline-flex items-center gap-2 flex-wrap mt-1">
+          <span class="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/40 text-sm">سنڌي Sindhi</span>
+          <span class="px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/40 text-sm">اردو Urdu</span>
+          <span class="px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/40 text-sm">🇬🇧 English</span>
+          <span class="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900/40 text-sm">🇲🇽 Spanish</span>
+        </span>
+      </p>
+
+    </div>
+
+    <h2 class="mt-16 mb-2 text-2xl font-bold lg:mt-20 sm:mt-16 text-pnw-sea-700 dark:text-pnw-sea-200">Let's Connect</h2>
+    <p
+      class="text-sm leading-6 text-pnw-sea-700 dark:text-pnw-sea-200 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+    >
+      If you want to stay up to date with my life be sure to <a
+        href="https://instagram.com/aminn04"
+        target="_blank"
+        class="text-pnw-sea-500 underline hover:text-pnw-sea-600 dark:text-pnw-sea-400 dark:hover:text-pnw-sea-300">follow me on Instagram</a
+      >, or you can send me an <a href="mailto:aminali@fastmail.com" class="text-pnw-sea-500 underline hover:text-pnw-sea-600 dark:text-pnw-sea-400 dark:hover:text-pnw-sea-300"
+        >email</a
+      > and I'll be sure to get back to you.
+    </p>
+  </section>
+</Layout>

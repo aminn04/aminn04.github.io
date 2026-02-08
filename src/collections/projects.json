@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Reasoning Model From Scratch",
+    "description": "Implemented a Claude-like Agent in PyTorch, from scratch.",
+    "image": "/assets/images/projects/build_reasoning_model.png",
+    "url": "https://github.com/aminn04/reasoning-from-scratch"
+  },
+  {
+    "name": "LLM Model From Scratch",
+    "description": "Implemented a ChatGPT-like LLM in PyTorch, from scratch.",
+    "image": "/assets/images/projects/build_llm_model.png",
+    "url": "https://github.com/aminn04/llm-from-scratch"
+  },
+  {
+    "name": "txt2sql",
+    "description": "Text-to-SQL",
+    "image": "/assets/images/projects/txt2sql.png",
+    "url": "https://github.com/aminn04/text2sql"
+  }  
+]

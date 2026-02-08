@@ -1,0 +1,59 @@
+<style>
+  @keyframes flip-horizontal {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  .logo-flip:hover svg {
+    animation: flip-horizontal 1s linear infinite;
+  }
+</style>
+<a
+  href="/"
+  class="logo-flip group relative z-30 flex items-center [perspective:400px]"
+>
+  <svg
+    class="w-10 h-10 transition-transform duration-300"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- Outer hexagon frame -->
+    <path
+      d="M24 2L44 14V34L24 46L4 34V14L24 2Z"
+      class="stroke-pnw-sea-700 dark:stroke-pnw-sea-300 fill-pnw-sea-100/50 dark:fill-pnw-sea-900/50"
+      stroke-width="1.5"
+    />
+    <!-- Inner geometric accent -->
+    <path
+      d="M24 8L38 16V32L24 40L10 32V16L24 8Z"
+      class="stroke-pnw-sea-500 dark:stroke-pnw-sea-400"
+      stroke-width="0.75"
+      fill="none"
+    />
+    <!-- First A - left -->
+    <path
+      d="M14 32L20 16L26 32M16 27H24"
+      class="stroke-pnw-sea-700 dark:stroke-pnw-sea-200"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <!-- Second A - right, slightly overlapping -->
+    <path
+      d="M22 32L28 16L34 32M24 27H32"
+      class="stroke-pnw-sea-500 dark:stroke-pnw-sea-400"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <!-- Futuristic accent dots -->
+    <circle cx="24" cy="6" r="1.5" class="fill-pnw-sea-500 dark:fill-pnw-sea-400" />
+    <circle cx="24" cy="42" r="1.5" class="fill-pnw-sea-500 dark:fill-pnw-sea-400" />
+  </svg>
+</a>
