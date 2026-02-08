@@ -1,4 +1,5 @@
 _site/
+node_modules/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
@@ -6,3 +7,4 @@ _site/
 .bundle/
 vendor/
 *.lock
+.DS_Store
