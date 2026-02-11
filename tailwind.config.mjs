@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ["Nunito", "sans-serif"],
         nav: ["Lobster", "cursive"],
+        mono: ['"IBM Plex Mono"', "monospace"],
       },
       fontSize: {
         xs: ["15px", "1.5"],

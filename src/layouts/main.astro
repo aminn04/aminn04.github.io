@@ -47,11 +47,11 @@ const { title, description = "Amin Ali is an Analytics Engineering expert based 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Lobster&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
   </head>
-  <body class="antialiased bg-slate-50 dark:bg-slate-950 min-h-screen flex flex-col">
+  <body class="antialiased bg-slate-50 dark:bg-slate-950 min-h-screen min-w-[480px] flex flex-col">
     <Header />
     <main class="flex-1">
       <slot />

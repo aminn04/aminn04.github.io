@@ -3,46 +3,53 @@ import menus from "../collections/menu.json";
 import Logo from "../components/logo.astro";
 ---
 
-<!-- This is an invisible div with relative position so that it takes up the height of the menu (because menu is absolute/fixed) -->
-<div class="relative w-full py-1 opacity-0 pointer-events-none"></div>
-<header id="header" class="absolute top-0 z-50 w-full py-1 font-nav font-bold text-pnw-sea-700 overflow-hidden">
-  <div id="vanta-header" class="absolute inset-0 -z-10"></div>
+<div class="relative w-full h-[60px] opacity-0 pointer-events-none"></div>
+<header
+  id="header"
+  class="fixed top-0 z-50 w-full h-[60px] border-b border-pnw-sea-200 dark:border-pnw-sea-800/60 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300"
+>
   <div
-    class="container flex items-center mx-auto pl-3 pr-10 max-w-7xl select-none"
+    class="flex items-center justify-between h-full mx-auto px-6 max-w-7xl"
   >
-    <Logo />
-    <nav
-      class="flex flex-row items-center gap-1 ml-2 text-base text-pnw-sea-600 dark:text-pnw-sea-300"
-    >
+    <!-- Left: Logo -->
+    <div class="flex items-center">
+      <Logo />
+    </div>
+
+    <!-- Center: Nav links (always visible) -->
+    <nav class="flex items-center gap-8">
       {
         menus.map((menu) => {
-          const isActive = Astro.url.pathname === menu.url || 
+          const isActive =
+            Astro.url.pathname === menu.url ||
             (menu.url !== "/" && Astro.url.pathname.startsWith(menu.url));
           return (
             <a
               href={menu.url}
               class:list={[
-                "relative flex items-center justify-center px-3 py-1 font-medium tracking-wide text-center duration-200 ease-out rounded-lg transition-all whitespace-nowrap",
-                isActive 
-                  ? "text-pnw-sea-800 dark:text-white bg-pnw-sea-200/50 dark:bg-pnw-sea-700/50" 
-                  : "text-pnw-sea-600 dark:text-pnw-sea-300 hover:text-pnw-sea-800 dark:hover:text-white hover:bg-pnw-sea-100 dark:hover:bg-pnw-sea-800/50"
+                "font-mono text-xs font-semibold uppercase tracking-[0.05em] transition-colors duration-200 whitespace-nowrap",
+                isActive
+                  ? "text-[#3b7dd8] dark:text-[#5b9bf5]"
+                  : "text-pnw-stone-400 dark:text-pnw-stone-400 hover:text-pnw-stone-700 dark:hover:text-pnw-stone-200",
               ]}
             >
               {menu.name}
             </a>
-          )
+          );
         })
       }
     </nav>
-    <div class="ml-auto">
+
+    <!-- Right: Dark mode toggle -->
+    <div class="flex items-center">
       <div
         id="darkToggle"
         class="relative flex items-center cursor-pointer"
       >
-        <div class="relative w-5 h-8 bg-pnw-sea-200 dark:bg-pnw-sea-800 rounded-sm border-2 border-pnw-sea-400 dark:border-pnw-sea-600 shadow-inner">
+        <div class="relative w-5 h-8 bg-[#3b7dd8]/15 dark:bg-[#5b9bf5]/15 rounded-sm border-2 border-[#3b7dd8]/40 dark:border-[#5b9bf5]/40 shadow-inner">
           <div
             id="switchKnob"
-            class="absolute left-0.5 right-0.5 h-3 bg-pnw-sea-500 dark:bg-pnw-sea-400 rounded-sm shadow-md transition-all duration-300 ease-out top-[calc(100%-14px)] dark:top-0.5"
+            class="absolute left-0.5 right-0.5 h-3 bg-[#3b7dd8] dark:bg-[#5b9bf5] rounded-sm shadow-md transition-all duration-300 ease-out top-[calc(100%-14px)] dark:top-0.5"
           ></div>
         </div>
       </div>
