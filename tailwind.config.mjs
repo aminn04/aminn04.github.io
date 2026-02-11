@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Nunito", "sans-serif"],
+        sans: ['"Hanken Grotesk"', "sans-serif"],
         nav: ["Lobster", "cursive"],
         mono: ['"IBM Plex Mono"', "monospace"],
       },
@@ -30,19 +30,19 @@ export default {
       colors: {
         // Pacific Northwest palette
         pnw: {
-          // Salish Sea blues
+          // Deep blue palette (matching nav accent #3b7dd8)
           sea: {
-            50: "#eef4f7",
-            100: "#d4e4ec",
-            200: "#b4c9d4",
-            300: "#8fb8c8",
-            400: "#5a9ab3",
-            500: "#3d7a94",
-            600: "#2d5f75",
-            700: "#1a3a4a",
-            800: "#0f2027",
-            900: "#071a1f",
-            950: "#040d10",
+            50: "#f0f4fc",
+            100: "#dce5f8",
+            200: "#bccef2",
+            300: "#93b1e8",
+            400: "#6590dc",
+            500: "#3b7dd8",
+            600: "#2c63b4",
+            700: "#1f4a8a",
+            800: "#152f5c",
+            900: "#0d1d3a",
+            950: "#070f1f",
           },
           // Forest greens
           forest: {

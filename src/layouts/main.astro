@@ -47,7 +47,7 @@ const { title, description = "Amin Ali is an Analytics Engineering expert based 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Lobster&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Lobster&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
   </head>
@@ -70,10 +70,10 @@ const { title, description = "Amin Ali is an Analytics Engineering expert based 
           gyroControls: false,
           minHeight: 200.00,
           minWidth: 200.00,
-          highlightColor: isDark ? 0x1a3a4a : 0x8fb8c8,
-          midtoneColor: isDark ? 0x0f2027 : 0xb4c9d4,
-          lowlightColor: isDark ? 0x071a1f : 0xdde8ed,
-          baseColor: isDark ? 0x0a1015 : 0xeef4f7,
+          highlightColor: isDark ? 0x1f4a8a : 0x93b1e8,
+          midtoneColor: isDark ? 0x152f5c : 0xbccef2,
+          lowlightColor: isDark ? 0x0d1d3a : 0xdce5f8,
+          baseColor: isDark ? 0x070f1f : 0xf0f4fc,
           blurFactor: 0.6,
           speed: 1.5,
           zoom: 1.2
@@ -104,10 +104,10 @@ const { title, description = "Amin Ali is an Analytics Engineering expert based 
           if (mutation.attributeName === 'class') {
             const isDark = document.documentElement.classList.contains('dark');
             const newColors = {
-              highlightColor: isDark ? 0x1a3a4a : 0x8fb8c8,
-              midtoneColor: isDark ? 0x0f2027 : 0xb4c9d4,
-              lowlightColor: isDark ? 0x071a1f : 0xdde8ed,
-              baseColor: isDark ? 0x0a1015 : 0xeef4f7
+              highlightColor: isDark ? 0x1f4a8a : 0x93b1e8,
+              midtoneColor: isDark ? 0x152f5c : 0xbccef2,
+              lowlightColor: isDark ? 0x0d1d3a : 0xdce5f8,
+              baseColor: isDark ? 0x070f1f : 0xf0f4fc
             };
             if (window.vantaHeader) window.vantaHeader.setOptions(newColors);
             if (window.vantaFooter) window.vantaFooter.setOptions(newColors);
