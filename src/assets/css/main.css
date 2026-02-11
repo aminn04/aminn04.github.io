@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iPhone safe area support */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent text size adjustment on orientation change in Safari */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Smooth momentum scrolling for Safari */
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Add Your Custom CSS Here */
 
 .prose img {

@@ -1,14 +1,17 @@
 ---
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
-const { title, description = "Amin Ali is an Analytics Engineering expert based in Vancouver, Canada. Specializing in scalable data solutions, analytics architecture, and data-driven teams." } = Astro.props;
+const {
+	title,
+	description = "Amin Ali is an Analytics Engineering expert based in Vancouver, Canada. Specializing in scalable data solutions, analytics architecture, and data-driven teams.",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content="Amin, Ali, Amin Ali, Vancouver, Data, Analytics Engineer, Data Science, dbt, Snowflake, BigQuery" />
@@ -51,7 +54,7 @@ const { title, description = "Amin Ali is an Analytics Engineering expert based 
     <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
   </head>
-  <body class="antialiased bg-slate-50 dark:bg-slate-950 min-h-screen min-w-[480px] flex flex-col">
+  <body class="antialiased bg-slate-50 dark:bg-slate-950 min-h-screen flex flex-col">
     <Header />
     <main class="flex-1">
       <slot />

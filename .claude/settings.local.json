@@ -1,11 +1,11 @@
 {
-  "permissions": {
-    "allow": [
-      "mcp__acp__Bash",
-      "mcp__acp__Edit",
-      "mcp__acp__Write",
-      "WebFetch(domain:www.vantajs.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
-    ]
-  }
+	"permissions": {
+		"allow": [
+			"mcp__acp__Bash",
+			"mcp__acp__Edit",
+			"mcp__acp__Write",
+			"WebFetch(domain:www.vantajs.com)",
+			"WebFetch(domain:raw.githubusercontent.com)"
+		]
+	}
 }

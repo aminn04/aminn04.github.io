@@ -9,15 +9,15 @@ import Logo from "../components/logo.astro";
   class="fixed top-0 z-50 w-full h-[60px] border-b border-pnw-sea-200 dark:border-pnw-sea-800/60 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300"
 >
   <div
-    class="flex items-center justify-between h-full mx-auto px-6 max-w-7xl"
+    class="flex items-center justify-between h-full mx-auto px-4 sm:px-6 max-w-7xl"
   >
     <!-- Left: Logo -->
-    <div class="flex items-center">
+    <div class="flex items-center mr-4 sm:mr-6">
       <Logo />
     </div>
 
     <!-- Center: Nav links (always visible) -->
-    <nav class="flex items-center gap-8">
+    <nav class="flex items-center gap-3 sm:gap-8">
       {
         menus.map((menu) => {
           const isActive =
@@ -41,7 +41,7 @@ import Logo from "../components/logo.astro";
     </nav>
 
     <!-- Right: Dark mode toggle -->
-    <div class="flex items-center">
+    <div class="flex items-center ml-4 sm:ml-6">
       <div
         id="darkToggle"
         class="relative flex items-center cursor-pointer"
