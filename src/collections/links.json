@@ -1,0 +1,26 @@
+[
+	{
+		"icon": "📬",
+		"title": "Email Me",
+		"subtitle": "Analytics engineering & data strategy",
+		"url": "mailto:aminali@fastmail.com"
+	},
+	{
+		"icon": "🔗",
+		"title": "Connect on LinkedIn",
+		"subtitle": "Work history & experience",
+		"url": "https://www.linkedin.com/in/aminnali/"
+	},
+	{
+		"icon": "📩",
+		"title": "Message on Instagram",
+		"subtitle": "Life history & fun",
+		"url": "https://instagram.com/aminn04"
+	},
+	{
+		"icon": "🎵",
+		"title": "Follow on Spotify",
+		"subtitle": "My concerts playlist",
+		"url": "https://open.spotify.com/playlist/2RcKYgeMYwDjUrzdjH66mo"
+	}
+]

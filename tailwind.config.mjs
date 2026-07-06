@@ -5,8 +5,8 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['"Hanken Grotesk"', "sans-serif"],
-				nav: ["Lobster", "cursive"],
+				sans: ['"DM Sans"', "sans-serif"],
+				display: ['"Space Grotesk"', '"DM Sans"', "sans-serif"],
 				mono: ['"IBM Plex Mono"', "monospace"],
 			},
 			fontSize: {
@@ -43,20 +43,6 @@ export default {
 						800: "#152f5c",
 						900: "#0d1d3a",
 						950: "#070f1f",
-					},
-					// Forest greens
-					forest: {
-						50: "#f0f5f1",
-						100: "#d8e5db",
-						200: "#b5cebb",
-						300: "#8ab394",
-						400: "#5d9468",
-						500: "#3d7548",
-						600: "#2d5a37",
-						700: "#1e3d25",
-						800: "#142a1a",
-						900: "#0a1a0f",
-						950: "#050d07",
 					},
 					// Mountain stone grays
 					stone: {
