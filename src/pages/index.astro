@@ -1,9 +1,33 @@
 ---
 import links from "../collections/links.json";
 
-const title = "Amin N Ali — Vancouver, Canada";
+const title =
+	"Amin N Ali — Data Scientist & Analytics Engineer in Vancouver, British Columbia";
 const description =
-	"Amin N Ali is an Analytics Engineering expert based in Vancouver, Canada. Specializing in scalable data solutions, analytics architecture, and data-driven teams.";
+	"Amin N Ali is a Data Scientist and Analytics Engineer based in Vancouver, British Columbia — building AI-forward data solutions and performant analytics teams.";
+const keywords =
+	"Amin N Ali, Data Scientist, Analytics Engineer, Vancouver, British Columbia, Canada, AI-forward data solutions, analytics engineering, data science";
+
+// Structured data (schema.org Person) so search & AI engines can extract the key facts.
+const personLd = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Amin N Ali",
+	jobTitle: ["Data Scientist", "Analytics Engineer"],
+	url: "https://aminn.ca",
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Vancouver",
+		addressRegion: "British Columbia",
+		addressCountry: "CA",
+	},
+	sameAs: [
+		"https://www.linkedin.com/in/aminnali/",
+		"https://instagram.com/aminn04",
+		"https://open.spotify.com/user/aminn04",
+		"https://github.com/aminn04",
+	],
+};
 ---
 
 <!doctype html>
@@ -16,12 +40,19 @@ const description =
     />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="author" content="Amin N Ali" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Structured data for search & AI engines -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Amin N Ali" />
+    <meta property="og:url" content="https://aminn.ca/" />
     <meta property="og:locale" content="en_CA" />
     <meta property="og:image" content="/assets/images/cover.png" />
 
@@ -181,12 +212,16 @@ const description =
       <h1 class="mt-5 font-display text-4xl font-black tracking-tight text-pnw-sea-800 dark:text-pnw-sea-100">
         Amin N Ali
       </h1>
-      <p class="mt-1 font-display text-sm font-medium text-pnw-sea-800 dark:text-pnw-sea-100">
+      <p class="mt-1 text-center font-display text-sm font-medium text-pnw-sea-800 dark:text-pnw-sea-100">
         Data Scientist
         <span class="mx-1 text-pnw-sea-300 dark:text-pnw-sea-700">·</span>
         Analytics Engineer
-        <span class="mx-1 text-pnw-sea-300 dark:text-pnw-sea-700">·</span>
-        Vancouver
+        <br />
+        <span class="text-xs font-normal italic text-pnw-sea-800 dark:text-pnw-sea-100">
+          Vancouver
+          <span class="mx-1 not-italic text-pnw-sea-300 dark:text-pnw-sea-700">·</span>
+          British Columbia
+        </span>
       </p>
       <p class="max-w-xs mt-3 text-sm text-center text-pnw-sea-600 dark:text-pnw-sea-300">
         I build AI-forward data solutions and performant analytics teams.
